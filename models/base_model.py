@@ -5,7 +5,7 @@ Subsequent classes ma inherit from this
 """
 import uuid
 from datetime import datetime
-
+import models
 
 class BaseModel:
     """
@@ -25,9 +25,20 @@ class BaseModel:
         Initializes a new instance of BaseModel, assigning id, created_at
         and updated_at.
         """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == '__class__':
+                    continue
+                elif key in ['created_at', 'updated_at']:
+                    setattr(self, key, datetime.fromisoformat(value))
+                else:
+                    setattr(self, key, value)
+
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """
@@ -47,6 +58,7 @@ class BaseModel:
         datetime.
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
@@ -66,3 +78,4 @@ class BaseModel:
         model_dict['created_at'] = self.created_at.isoformat()
         model_dict['updated_at'] = self.updated_at.isoformat()
         return model_dict
+     
