@@ -4,6 +4,7 @@ The Filestorage class handling both serialization and deserialization
 """
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
