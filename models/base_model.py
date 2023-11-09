@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """
     BaseModel class that defines all common attributes and methods for other
@@ -78,4 +79,3 @@ class BaseModel:
         model_dict['created_at'] = self.created_at.isoformat()
         model_dict['updated_at'] = self.updated_at.isoformat()
         return model_dict
-     
