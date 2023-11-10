@@ -3,9 +3,9 @@
 The console module
 """
 import cmd
-from models import base_model
+import re
+from models import amenity, base_model, place, review, user, state, city
 from models import storage
-from models import user
 
 
 class HBNBCommand(cmd.Cmd):
@@ -15,7 +15,12 @@ class HBNBCommand(cmd.Cmd):
 
     classes = {
         'BaseModel': base_model.BaseModel,
-        'User': user.User
+        'User': user.User,
+        'State': state.State,
+        'City': city.City,
+        'Amenity': amenity.Amenity,
+        'Place': place.Place,
+        'Review': review.Review
     }
 
     def emptyline(self):
@@ -165,6 +170,36 @@ class HBNBCommand(cmd.Cmd):
 
         setattr(instance, attribute_name, attribute_value)
         instance.save()
+
+    def default(self, line):
+        """
+        Default behavior for unrecognized commands, enabling additional syntax.
+        """
+        pattern_all = r"^\w+\.all\(\)$"
+        pattern_count = r"^\w+\.count\(\)$"
+
+        if re.match(pattern_all, line):
+            class_name = line.split(".")[0]
+            if class_name in self.classes:
+                self.do_all(class_name)
+            else:
+                print("** class doesn't exist **")
+        elif re.match(pattern_count, line):
+            class_name = line.split(".")[0]
+            self.do_count(class_name)
+        else:
+            print(f"*** Unknown syntax: {line}")
+
+    def do_count(self, class_name):
+        """
+        Count the number of instances of a given class name.
+        """
+        if class_name in self.classes:
+            all_objs = storage.all()
+            count = sum(1 for key in all_objs if key.startswith(class_name + "."))
+            print(count)
+        else:
+            print("** class doesn't exist **")
 
 
 if __name__ == '__main__':
