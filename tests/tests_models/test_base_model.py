@@ -7,6 +7,7 @@ import unittest
 from datetime import datetime
 from datetime import timedelta
 
+
 class TestBaseModel(unittest.TestCase):
 
     def test_initialization(self):
@@ -95,8 +96,6 @@ class TestBaseModel(unittest.TestCase):
         instance = BaseModel(**kwargs)
         self.assertTrue(hasattr(instance, 'nonexistent_field'), "Instance should handle dynamic attribute assignment")
         self.assertEqual(instance.id, '123', "Valid kwargs should be handled correctly")
-
-
 
 
 if __name__ == '__main__':
