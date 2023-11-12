@@ -254,6 +254,20 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
+    def do_update_from_dict(self, class_name, instance_id, dict_str):
+        """
+        Update an instance based on its ID with a dictionary.
+        """
+        try:
+            attr_dict = eval(dict_str)
+            if not isinstance(attr_dict, dict):
+                raise ValueError("Provided input is not a dictionary")
+            for attr, value in attr_dict.items():
+                if attr not in ['id', 'created_at', 'updated_at']:
+                    self.do_update(f'{class_name} {instance_id} {attr} "{value}"')
+        except (SyntaxError, ValueError) as e:
+            print(f"** invalid dictionary: {e}")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
