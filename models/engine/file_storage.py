@@ -42,24 +42,3 @@ class FileStorage:
                     self.new(cls(**obj_data))
         except FileNotFoundError:
             pass
-        """
-        try:
-            with open(FileStorage.__file_path, 'r', encoding='utf_8') as f:
-                objs = json.load(f)
-                for obj_id, obj_data in objs.items():
-                    cls_name = obj_data['__class__']
-                    cls = globals().get(cls_name)
-                    if cls:  # Ensure that cls is not None
-                        try:
-                            self.new(cls(**obj_data))
-                        except TypeError as e:
-                            print(f"TypeError when attempting to create {cls_name} with data {obj_data}: {e}")
-                        except Exception as e:
-                            print(f"Unexpected error when creating {cls_name}: {e}")
-                    else:
-                        print(f"Class {cls_name} not found in global scope.")
-        except FileNotFoundError:
-            print("JSON file not found.")
-        except json.JSONDecodeError as e:
-            print(f"JSON Decode Error: {e}")
-        """
