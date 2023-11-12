@@ -196,7 +196,8 @@ class HBNBCommand(cmd.Cmd):
         """
         if class_name in self.classes:
             all_objs = storage.all()
-            count = sum(1 for key in all_objs if key.startswith(class_name + "."))
+            count = sum(1 for key in all_objs if key.startswith(
+                                                        class_name + "."))
             print(count)
         else:
             print("** class doesn't exist **")
