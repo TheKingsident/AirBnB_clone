@@ -181,6 +181,7 @@ class HBNBCommand(cmd.Cmd):
         pattern_all = r"^\w+\.all\(\)$"
         pattern_count = r"^\w+\.count\(\)$"
         pattern_show = r"^\w+\.show\(\"[a-zA-Z0-9-]+\"\)$"
+        pattern_destroy = r"^\w+\.destroy\(\"[a-zA-Z0-9-]+\"\)$"
 
         if re.match(pattern_all, line):
             class_name = line.split(".")[0]
@@ -203,6 +204,14 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **"
                       if class_name not in self.classes else
                       "** no instance found **")
+        elif re.match(pattern_destroy, line):
+            parts = line.split(".")
+            class_name, command_part = parts[0], parts[1]
+            instance_id = re.findall(r'"([^"]+)"', command_part)[0]
+            if class_name in self.classes:
+                self.do_destroy(f"{class_name} {instance_id}")
+            else:
+                print("** class doesn't exist **")
         else:
             print(f"*** Unknown syntax: {line}")
 
