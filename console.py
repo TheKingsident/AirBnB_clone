@@ -180,6 +180,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pattern_all = r"^\w+\.all\(\)$"
         pattern_count = r"^\w+\.count\(\)$"
+        pattern_show = r"^\w+\.show\(\"[a-zA-Z0-9-]+\"\)$"
 
         if re.match(pattern_all, line):
             class_name = line.split(".")[0]
@@ -190,6 +191,18 @@ class HBNBCommand(cmd.Cmd):
         elif re.match(pattern_count, line):
             class_name = line.split(".")[0]
             self.do_count(class_name)
+        elif re.match(pattern_show, line):
+            parts = line.split(".")
+            class_name, command_part = parts[0], parts[1]
+            instance_id = re.findall(r'"(.*?)"', command_part)
+            if not instance_id:
+                instance_id = re.findall(r'\((.*?)\)', command_part)
+            if class_name in self.classes and instance_id:
+                self.do_show(f"{class_name} {instance_id[0]}")
+            else:
+                print("** class doesn't exist **"
+                      if class_name not in self.classes else
+                      "** no instance found **")
         else:
             print(f"*** Unknown syntax: {line}")
 
