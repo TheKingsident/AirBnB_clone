@@ -182,6 +182,7 @@ class HBNBCommand(cmd.Cmd):
         pattern_count = r"^\w+\.count\(\)$"
         pattern_show = r"^\w+\.show\(\"[a-zA-Z0-9-]+\"\)$"
         pattern_destroy = r"^\w+\.destroy\(\"[a-zA-Z0-9-]+\"\)$"
+        pattern_update = r"^\w+\.update\(\"[a-zA-Z0-9-]+\", \"[a-zA-Z_]+\", \"[^\"]*\"\)$"
 
         if re.match(pattern_all, line):
             class_name = line.split(".")[0]
@@ -212,6 +213,18 @@ class HBNBCommand(cmd.Cmd):
                 self.do_destroy(f"{class_name} {instance_id}")
             else:
                 print("** class doesn't exist **")
+        elif re.match(pattern_update, line):
+            parts = line.split(".")
+            class_name, command_part = parts[0], parts[1]
+            match = re.match(r'update\("([^"]+)", "([^"]+)", "([^"]*)"\)', command_part)
+            if match:
+                instance_id, attribute_name, attribute_value = match.groups()
+                if class_name in self.classes:
+                    self.do_update(f'{class_name} {instance_id} {attribute_name} "{attribute_value}"')
+                else:
+                    print("** class doesn't exist **")
+            else:
+                print("** invalid command syntax **")
         else:
             print(f"*** Unknown syntax: {line}")
 
