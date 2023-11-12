@@ -53,6 +53,9 @@ class HBNBCommand(cmd.Cmd):
         print(new_instance.id)
 
     def do_show(self, arg):
+        """
+        Shows all objects/instances
+        """
         args = arg.split()
         if not args:
             print("** class name missing **")
