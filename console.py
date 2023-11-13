@@ -182,7 +182,8 @@ class HBNBCommand(cmd.Cmd):
         pattern_count = r"^\w+\.count\(\)$"
         pattern_show = r"^\w+\.show\(\"[a-zA-Z0-9-]+\"\)$"
         pattern_destroy = r"^\w+\.destroy\(\"[a-zA-Z0-9-]+\"\)$"
-        pattern_update = r"^\w+\.update\(\"[a-zA-Z0-9-]+\", \"[a-zA-Z_]+\", \"[^\"]*\"\)$"
+        pattern_update = (r"^\w+\.update\(\"[a-zA-Z0-9-]+\", \"[a-zA-Z_]+\", "
+                          r"\"[^\"]*\"\)$")
         pattern_update_dict = r"^\w+\.update\(\"[a-zA-Z0-9-]+\", \{.*\}\)$"
 
         if re.match(pattern_all, line):
