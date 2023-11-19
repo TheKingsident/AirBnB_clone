@@ -1,0 +1,1 @@
+This directory contains asssignment files for the "0x01. AirBnB clone - Web static" from ALX
